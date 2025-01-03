@@ -11,13 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+
 import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 
@@ -87,7 +81,9 @@ const QrCodeUrlForm: React.FC<QrCodeUrlFormProps> = ({ setQrCode }) => {
             </FormItem>
           )}
         />
-        <div className="flex items-center">
+        {/* Removed the customizable feature due to scanner bug */}
+
+        {/* <div className="flex items-center">
           <p className="text-sm font-bold">Customization:</p>
         </div>
         <div className="grid grid-cols-2 items-center gap-5">
@@ -151,7 +147,7 @@ const QrCodeUrlForm: React.FC<QrCodeUrlFormProps> = ({ setQrCode }) => {
               )}
             />
           </div>
-        </div>
+        </div> */}
         <Button type="submit">Generate QR Code</Button>
       </form>
     </Form>
