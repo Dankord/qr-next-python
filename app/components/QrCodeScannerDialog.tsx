@@ -35,6 +35,7 @@ const handleScan = (detectCodes: DataProps | null) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsScannerOpen}>
       <DialogContent className="sm:max-w-[700px]">
+        <div className="pt-5">
         <QrReader
           onScan={handleScan}
           onError={handleError}
@@ -42,6 +43,7 @@ const handleScan = (detectCodes: DataProps | null) => {
             width: "100%",
            }}
         />
+        </div>
       </DialogContent>
     </Dialog>
   );

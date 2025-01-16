@@ -45,7 +45,7 @@ const QrCodeNavBar = () => {
         </div>
       </header>
       <QrCodeScannerDialog setIsScannerOpen={setIsScannerOpen} isOpen={isScannerOpen} setDataScan={setDataScan} />
-      <QrCodeInfoDialog setIsInfoOpen={setIsInfoOpen} isOpen={isInfoOpen} dataScan={dataScan}/>
+      <QrCodeInfoDialog setIsInfoOpen={setIsInfoOpen} isOpen={isInfoOpen} dataScan={dataScan} setIsScannerOpen={setIsScannerOpen} />
     </>
   )
 }
