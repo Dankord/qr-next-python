@@ -64,5 +64,6 @@ def text():
 
     return send_file(img_byte_arr, mimetype="image/png")
 
+
 if __name__ == "__main__":
     app.run(debug=True)
