@@ -17,9 +17,22 @@ const QrCodeTabs = () => {
 
   const handleQrCodeDownloadClick = () => {
     if (qrCode) {
+      const now = new Date();
+
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      const day = now.getDate().toString().padStart(2, '0');
+      let hours = now.getHours();
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      
+      const formattedDate = `${month}/${day}/${year} time: ${hours}:${minutes} ${ampm}`;
       const link = document.createElement('a');
       link.href = qrCode;
-      link.download = 'qrcode.png';
+      link.download = `qrcode-${formattedDate}.png`;
       link.click();
     }
   }
@@ -46,7 +59,7 @@ const QrCodeTabs = () => {
               </TabsList>
               <TabsContent value="text" className="space-y-4">
                 <div className="space-y-2">
-                  <QrCodeTextForm />
+                  <QrCodeTextForm setQrCode={setQrCode} />
                 </div>
               </TabsContent>
               <TabsContent value="url" className="space-y-4">
@@ -56,7 +69,7 @@ const QrCodeTabs = () => {
               </TabsContent>
               <TabsContent value="email" className="space-y-4">
                 <div className="space-y-2">
-                  <QrCodeEmailForm />
+                  <QrCodeEmailForm setQrCode={setQrCode} />
                 </div>
               </TabsContent>
             </Tabs>

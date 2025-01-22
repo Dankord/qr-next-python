@@ -18,10 +18,17 @@ interface QrCodeScannerProps {
 const QrCodeScannerDialog: React.FC<QrCodeScannerProps> = ({ setIsScannerOpen, isOpen, setDataScan }) => {
 
 const handleScan = (detectCodes: DataProps | null) => {
-  console.log(detectCodes)
-    if (detectCodes) {
-      setDataScan(detectCodes)
-    }
+  if (!detectCodes || !detectCodes.text) {
+    console.log("No valid QR code detected.");
+    return;
+  }
+  setDataScan(detectCodes);
+
+  if (detectCodes.text.startsWith("mailto:")) {
+    window.location.href = detectCodes.text;
+  } else {
+    console.log("Scanned QR code is not a mailto link:", detectCodes.text);
+  }
   };
 
   const handleError = (err: unknown) => {

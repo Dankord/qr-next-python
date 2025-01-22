@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input"
 import { toast } from "@/components/ui/use-toast"
 
 const QrCodeUrlformSchema = z.object({
-  url: z.string().min(2).max(200),
+  url: z.string().url("Please enter a valid URL.").max(200),
   color: z.string().optional(),
   bgColor: z.string().optional(),
 })

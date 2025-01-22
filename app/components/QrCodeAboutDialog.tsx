@@ -66,7 +66,7 @@ const QrCodeAboutDialog = () => {
                     </div>
                     <div className="flex items-center space-x-2">
                       <HiOutlinePaintBrush size={20}/>
-                      <span>Customizable QR codes</span>
+                      <span>Easy to use!</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <HiOutlineQrCode size={20}/>

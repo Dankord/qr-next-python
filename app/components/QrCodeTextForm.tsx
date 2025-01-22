@@ -14,17 +14,40 @@ import {
 } from "@/components/ui/form"
 import { Textarea } from "@/components/ui/textarea"
 
+interface QrCodeTextFormProps {
+  setQrCode: (qrCode: string) => void;
+}
+
 const QrCodeTextformSchema = z.object({
-  text: z.string().min(2).max(100),
+  text: z.string().min(2).max(500),
 })
 
-const QrCodeTextForm = () => {
+const QrCodeTextForm: React.FC<QrCodeTextFormProps> = ({ setQrCode }) => {
   const form = useForm<z.infer<typeof QrCodeTextformSchema>>({
     resolver: zodResolver(QrCodeTextformSchema),
   })
 
   const onSubmit = async (data: z.infer<typeof QrCodeTextformSchema>) => {
-    console.log(data)
+    try {
+      const url = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const response = await fetch(`${url}/api/qr/text`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const dataResponse = await response.blob()
+      const qrText = URL.createObjectURL(dataResponse)
+      setQrCode(qrText);
+      console.log(dataResponse);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

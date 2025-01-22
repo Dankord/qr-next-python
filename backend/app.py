@@ -64,6 +64,40 @@ def text():
 
     return send_file(img_byte_arr, mimetype="image/png")
 
+@app.route('/api/qr/email', methods=['POST'])
+def email():
+    data = request.get_json()
+    
+    if not data:
+        return jsonify({'error': 'data not provided'}), 400
+    
+    email = data.get('email')
+    if not email:
+        return jsonify({'error': 'email not provided'}), 400
+    
+    subject = data.get('subject', '')   
+    message = data.get('message', '')
+    color = data.get('color', 'black')
+    bgColor = data.get('bgColor', 'white')
+    
+    mailto = f"mailto:{email}?subject={subject}&body={message}"
+    
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=3,
+    )
+    qr.add_data(mailto)
+    qr.make(fit=True)
+    
+    img = qr.make_image(fill_color=color, back_color=bgColor)
+    
+    img_byte_arr = io.BytesIO()
+    img.save(img_byte_arr, format='PNG')
+    img_byte_arr.seek(0)
+    
+    return send_file(img_byte_arr, mimetype="image/png")
 
 if __name__ == "__main__":
     app.run(debug=True)
