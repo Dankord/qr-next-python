@@ -1,8 +1,10 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { DataProps } from "./QrCodeScannerDialog"
 import { Button } from "@/components/ui/button"
 import { useToast } from "@/hooks/use-toast"
+import { useMediaQuery } from "@/hooks/use-media-query"
 
 interface QrCodeInfoDialogProps {
   setIsInfoOpen: (isOpen: boolean) => void
@@ -12,6 +14,8 @@ interface QrCodeInfoDialogProps {
 }
 
 const QrCodeInfoDialog: React.FC<QrCodeInfoDialogProps> = ({ setIsInfoOpen, isOpen, dataScan, setIsScannerOpen }) => {
+  const isDesktop = useMediaQuery("(min-width: 768px)")
+
   const { toast } = useToast()
 
   const handleScanAgainClick = () => {
@@ -40,20 +44,45 @@ const QrCodeInfoDialog: React.FC<QrCodeInfoDialogProps> = ({ setIsInfoOpen, isOp
       })
     }
   };
-
+  if (isDesktop) {
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsInfoOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Scanned Data</DialogTitle>
+          </DialogHeader>
+          <div className="mt-5">
+            <div className="flex items-center justify-center border p-7">
+              <p className="text-lg">
+                {dataScan?.text}
+              </p>
+            </div>
+            <div className="flex justify-center gap-5 items-center pt-5">
+              <Button onClick={handleScanAgainClick}>
+                Scan Again
+              </Button>
+              <Button onClick={handleCopyToClipboardClick}>
+                Copy to Clipboard
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    )
+  }
   return (
-    <Dialog open={isOpen} onOpenChange={setIsInfoOpen}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Scanned Data</DialogTitle>
-        </DialogHeader>
+    <Drawer open={isOpen} onOpenChange={setIsInfoOpen}>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Scanned Data</DrawerTitle>
+        </DrawerHeader>
         <div className="mt-5">
           <div className="flex items-center justify-center border p-7">
             <p className="text-lg">
               {dataScan?.text}
             </p>
           </div>
-          <div className="flex justify-center gap-5 items-center pt-5">
+          <div className="flex justify-center gap-5 items-center py-5">
             <Button onClick={handleScanAgainClick}>
               Scan Again
             </Button>
@@ -62,8 +91,8 @@ const QrCodeInfoDialog: React.FC<QrCodeInfoDialogProps> = ({ setIsInfoOpen, isOp
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </DrawerContent>
+    </Drawer>
   )
 }
 
